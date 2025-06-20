@@ -10,3 +10,6 @@ torch
 pyhtml
 ipython
 sentence-transformers
+faiss-gpu
+numpy
+pinecone 
