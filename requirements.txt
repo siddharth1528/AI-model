@@ -7,3 +7,6 @@ trubrics>=1.4.3
 streamlit-feedback
 langchain-community
 torch
+pyhtml
+ipython
+sentence-transformers
