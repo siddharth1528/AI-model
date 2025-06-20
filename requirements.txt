@@ -10,6 +10,6 @@ torch
 pyhtml
 ipython
 sentence-transformers
-faiss
+faiss-cpu
 numpy
 pinecone 
