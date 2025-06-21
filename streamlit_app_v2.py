@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="L&T Enterprise Assistant", layout="wide")
+st.set_page_config(page_title="L&T Quality NCR & FCD Assistant", layout="wide")
 import pandas as pd
 import re
 import io
