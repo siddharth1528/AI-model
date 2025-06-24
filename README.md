@@ -120,6 +120,8 @@ MBA (Data Science & AI) Candidate – IIT Mandi.
 Feel free to fork, contribute, or raise issues as needed.
 For best results, ensure the parquet files are up to date before launching the app. Use the instructions above to refresh the data.
 
+### 🔍 Example Query Response
+![Query Screenshot](https://github.com/user-attachments/assets/82ff766c-1933-4b72-b10f-39e9275b1b6c.png)
 
 ![Screenshot (4)](https://github.com/user-attachments/assets/82ff766c-1933-4b72-b10f-39e9275b1b6c)
 ![Screenshot (3)](https://github.com/user-attachments/assets/7873dcca-ba66-4763-9ff4-becdc549fb5d)
