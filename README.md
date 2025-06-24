@@ -6,7 +6,7 @@ The application is built using Python, Pandas, LangChain, and Streamlit, with ba
 
 ---
 
-## 📌 About the Application
+## About the Application
 
 This project enables engineering teams and project stakeholders to ask detailed questions about project documents — such as how many FCDs are approved, which NCRs are delayed, or the average time taken for document approvals — all through natural language.
 
@@ -21,7 +21,7 @@ It is optimized for both **web-based interaction** and **local desktop use**.
 
 ---
 
-## 🧠 Core Logic and Functionality
+## Core Logic and Functionality
 
 The system works by performing three key steps:
 
@@ -46,7 +46,7 @@ The generated Pandas code is executed within a controlled environment using a se
 
 ---
 
-## 🔄 Data Preparation & Updates
+##  Data Preparation & Updates
 
 The app works with two Parquet files:
 - `fcd_data.parquet`
@@ -65,16 +65,16 @@ These files are refreshed daily using a Jupyter notebook.
 
 ---
 
-## 🚀 How to Launch the Application
+##  How to Launch the Application
 
-### 🌐 Web Interface
+### Web Interface
 You can access the hosted web version here:  
 🔗 [https://ai-model-jkvtiyxmikxpmdldhixscr.streamlit.app/](https://ai-model-jkvtiyxmikxpmdldhixscr.streamlit.app/)  
 > This link launches the Streamlit-based Version 2 of the Retrieval-Augmented Chat Assistant.
 
 ---
 
-### 💻 Run Locally (Desktop Version)
+### Run Locally (Desktop Version)
 
 To run the app locally on your desktop:
 
@@ -95,10 +95,8 @@ This will open a local Streamlit session with full functionality.
 | Code Execution | Python `exec()` (with `ast` safety checks) |
 | Data Format    | `.parquet` (efficient tabular storage)     |
 
-📁 Repository Structure
-graphql
-Copy
-Edit
+Repository Structure
+
 ├── data_paraquet_former.ipynb        # Prepares daily FCD & NCR data
 ├── fcd_data.parquet                  # Field Change Document data
 ├── ncr_data.parquet                  # Non-Conformance Report data
