@@ -79,6 +79,12 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     code_to_run = re.sub(r"[^\x20-\x7E\n\t]", "", code_to_run)
     code_to_run = re.sub(r"\b0+(\d+)", r"\1", code_to_run)
 
+    code_to_run = re.sub(
+    r"print\s*\(\s*filtered_df\s*\)",
+    "display(ipyHTML(filtered_df.to_html(index=False)))",
+    code_to_run
+    )
+
     try:
         ast.parse(code_to_run)
     except SyntaxError as e:
@@ -139,6 +145,15 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
                     st.dataframe(val)
                     return "✅ Filtered results displayed."
                     
+        val = local_vars.get("filtered_df")
+        if isinstance(val, pd.DataFrame) and not val.empty:
+            st.subheader("📄 Auto-displaying filtered FCD/NCR records")
+            requested_cols = extract_requested_columns(user_query, list(val.columns))
+            if requested_cols:
+                val = val[requested_cols]
+            st.dataframe(val)
+            return "✅ Filtered results auto-displayed."
+
         for val in local_vars.values():
             if hasattr(val, "_repr_html_"):
                 st.markdown(val._repr_html_(), unsafe_allow_html=True)
