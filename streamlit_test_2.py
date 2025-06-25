@@ -546,7 +546,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>NCR-FCD Insight Engine</h1>
+            <h1>🦩 NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
@@ -563,7 +563,7 @@ with input_col:
         user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in WIP", key="user_input")
         submitted = st.form_submit_button("O_O 🔍 Ask")
 with img_col:
-    st.image("https://cdn-icons-png.flaticon.com/512/14201/14201937.png", width=80)
+    st.image("https://cdn-icons-png.flaticon.com/512/14201/14201937.png", width=90)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
