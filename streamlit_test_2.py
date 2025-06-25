@@ -124,10 +124,10 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
                 print(f"[DEBUG] DataFrame var '{name}' shape: {val.shape}")
 
         for name in ["filtered_df", "result", "output_df"]:
-        val = local_vars.get(name)
-        if isinstance(val, pd.DataFrame):
-            print(f"[DEBUG] '{name}' columns:", list(val.columns))
-            print(val.head().to_string())
+            val = local_vars.get(name)
+            if isinstance(val, pd.DataFrame):
+                print(f"[DEBUG] '{name}' columns:", list(val.columns))
+                print(val.head().to_string())
         
         printed_output = output.getvalue().strip()
         if printed_output:
