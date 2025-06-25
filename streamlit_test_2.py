@@ -510,7 +510,7 @@ st.markdown("""
 
 col1, col2 = st.columns([1, 6])
 with col1:
-    st.image("https://www.larsentoubro.com/media/30891/ltgrouplogo.jpg", width=250)
+    st.image("https://www.larsentoubro.com/media/30891/ltgrouplogo.jpg", width=220)
 with col2:
     st.markdown('''
         <div class="header-text">
@@ -531,7 +531,7 @@ with input_col:
         user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in WIP", key="user_input")
         submitted = st.form_submit_button("O_O 🔍 Ask")
 with img_col:
-    st.image("https://cdn-icons-png.flaticon.com/512/4712/4712109.png", width=80)
+    st.image("https://cdn-icons-png.flaticon.com/512/9732/9732765.png", width=80)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
