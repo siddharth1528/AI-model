@@ -306,10 +306,14 @@ If the query is to **list**, **display**, or **summarize** FCDs or NCRs:
     ['DOC_Number', 'DOC_Description', 'DOC_Status', 'Discipline', 'Sub contractor',
      'Order_Description', 'Current_Workflow_Stage', 'Workflow_Stage_Users', 'Ongoing_Delay_Days']
 
-After filtering, always:
-- Assign the filtered result to `filtered_df`
-- Subset it to the correct summary columns above
-- Display with: `display(ipyHTML(filtered_df.to_html(index=False)))`
+📌 Final Output Instructions for DataFrame Queries:
+- The **last line** of your code **must** assign the filtered result to a variable named `filtered_df`.
+- Then render it using: `display(ipyHTML(filtered_df.to_html(index=False)))`
+- ❌ Do NOT use `print(...)` for DataFrame display.
+- ❌ Never use `print(filtered_df)` — it will not render correctly.
+- ✅ Correct format:
+    filtered_df = df_FCD[...filtered...]
+    display(ipyHTML(filtered_df.to_html(index=False)))
 
 Final Output Rules:
 - If the query is about **counts** or scalar values (like "how many", "count", "number of"):
