@@ -119,7 +119,9 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
             exec(code_to_run, {}, local_vars)
     
         printed_output = output.getvalue().strip()
-        if printed_output:
+        if intent == "count" and printed_output:
+            return printed_output
+        elif printed_output:
             print("[DEBUG] Printed Output:")
             print(printed_output)
                 
@@ -544,7 +546,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🐿 NCR-FCD Insight Engine</h1>
+            <h1>🦅 NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
