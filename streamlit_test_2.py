@@ -112,28 +112,17 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
         "ipyHTML": ipyHTML,
         "filtered_df": None,
     }
-
+    
     output = io.StringIO()
     try:
         with contextlib.redirect_stdout(output):
-            print("[DEBUG] Executing code:\n", code_to_run)
             exec(code_to_run, {}, local_vars)
-            
-        print("[DEBUG] Local variables:", list(local_vars.keys()))
-        for name, val in local_vars.items():
-            if isinstance(val, pd.DataFrame):
-                print(f"[DEBUG] DataFrame var '{name}' shape: {val.shape}")
-
-        for name in ["filtered_df", "result", "output_df"]:
-            val = local_vars.get(name)
-            if isinstance(val, pd.DataFrame):
-                print(f"[DEBUG] '{name}' columns:", list(val.columns))
-                print(val.head().to_string())
-        
+    
         printed_output = output.getvalue().strip()
-        if printed_output.strip():
-            return printed_output
-
+        if printed_output:
+            print("[DEBUG] Printed Output:")
+            print(printed_output)
+    
         html_candidates = ["filtered_df", "result", "output_df"]
         for var_name in html_candidates:
             val = local_vars.get(var_name)
@@ -146,32 +135,22 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
                         st.subheader("📄 NCR Records")
                     elif "fcd" in user_query.lower() and "ncr" not in user_query.lower():
                         st.subheader("📄 FCD Records")
-        
+    
                     requested_cols = extract_requested_columns(user_query, list(val.columns))
                     if requested_cols:
                         val = val[requested_cols]
-        
+    
                     st.dataframe(val)
                     return "✅ Filtered results displayed."
-                    
-        for var_name in html_candidates:
-            val = local_vars.get(var_name)
-            if isinstance(val, pd.DataFrame):
-                if not val.empty:
-                    st.subheader("📄 Auto-recovered filtered table")
-                    req_cols = extract_requested_columns(user_query, list(val.columns))
-                    if req_cols:
-                        val = val[req_cols]
-                    st.dataframe(val)
-                    return "✅ Recovered filtered results displayed."
-
+    
+        # Fallback: Try rendering any object with _repr_html_
         for val in local_vars.values():
             if hasattr(val, "_repr_html_"):
                 st.markdown(val._repr_html_(), unsafe_allow_html=True)
                 return "✅ Custom HTML table rendered."
-
+    
         return "✅ Code executed successfully (no output returned)."
-
+    
     except Exception as e:
         return f"❌ Execution error: {e}"
     
