@@ -112,8 +112,12 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
             exec(code_to_run, {}, local_vars)
 
         printed_output = output.getvalue().strip()
-        if printed_output and "<IPython.core.display.HTML object>" not in printed_output:
-            return printed_output
+        if printed_output:
+            # Avoid returning printed DataFrames as plain text
+            if "DOC_Number" in printed_output or "DOC_NO" in printed_output:
+                return "⚠️ Printed DataFrame detected. Please check code rendering."
+            else:
+                return printed_output
 
         html_candidates = ["filtered_df", "result", "output_df"]
         for var_name in html_candidates:
@@ -314,6 +318,9 @@ Approval Time Calculation:
     ➤ Assign result to `filtered_df` and display using:
         `display(ipyHTML(filtered_df.to_html(index=False)))`
 - Always assign final DataFrame output to filtered_df before displaying.
+- You MUST use: `display(ipyHTML(filtered_df.to_html(index=False)))` to render the final table
+- NEVER use: `print(filtered_df)` or `print(...)` for DataFrame display
+- NEVER show the full DataFrame unless explicitly asked
 
 🔧 Delay and Status Filtering:
 - Always normalize `DOC_Status` before filtering:
