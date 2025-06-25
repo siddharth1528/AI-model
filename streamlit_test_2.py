@@ -546,7 +546,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🦢 NCR-FCD Insight Engine</h1>
+            <h1>NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
