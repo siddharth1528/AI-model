@@ -80,9 +80,10 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     code_to_run = re.sub(r"\b0+(\d+)", r"\1", code_to_run)
 
     code_to_run = re.sub(
-    r"print\s*\(\s*filtered_df\s*\)",
-    "display(ipyHTML(filtered_df.to_html(index=False)))",
-    code_to_run
+        r"print\s*\(\s*(filtered_df|result|output_df)\s*\)",
+        r"display(ipyHTML(\1.to_html(index=False)))",
+        code_to_run,
+        flags=re.IGNORECASE
     )
 
     try:
@@ -314,6 +315,9 @@ If the query is to **list**, **display**, or **summarize** FCDs or NCRs:
 - ✅ Correct format:
     filtered_df = df_FCD[...filtered...]
     display(ipyHTML(filtered_df.to_html(index=False)))
+-❌ NEVER use print(filtered_df)
+-❌ NEVER use print(...) for DataFrames
+-✅ ALWAYS use display(ipyHTML(...)) for rendering tables
 
 Final Output Rules:
 - If the query is about **counts** or scalar values (like "how many", "count", "number of"):
@@ -347,9 +351,16 @@ Approval Time Calculation:
 - Use `Approval_Days` only if it is present; otherwise, compute it as shown.
 - For averages or ratios based on approval time, apply `df['Approval_Days'].mean()` etc. **only after** filtering `APPROVED` entries using `DOC_Status`.
 
-- If the query is to **show** rows (like "list", "show", "display", "entries"):
-    ➤ Assign result to `filtered_df` and display using:
-        `display(ipyHTML(filtered_df.to_html(index=False)))`
+⛔ You MUST NOT use `print(...)` or `print(filtered_df)` for table display.
+
+✅ INSTEAD:
+- Always assign the result to a variable named `filtered_df`
+- Then display the DataFrame using:
+    display(ipyHTML(filtered_df.to_html(index=False)))
+✅ Example:
+filtered_df = df_FCD[...]  # your filtering logic here
+display(ipyHTML(filtered_df.to_html(index=False)))
+
 - Always assign final DataFrame output to filtered_df before displaying.
 - You MUST use: `display(ipyHTML(filtered_df.to_html(index=False)))` to render the final table
 - NEVER use: `print(filtered_df)` or `print(...)` for DataFrame display
