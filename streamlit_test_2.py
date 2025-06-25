@@ -69,7 +69,7 @@ def extract_requested_columns(query, available_columns):
     return list(set(matched))
 
 # -------------------- SAFE PANDAS EXECUTION --------------------
-def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: str = ""):
+def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: str = "", intent: str = "table"):
     if not isinstance(code, str):
         return f"❌ Error: LLM returned a non-string response: {type(code)}"
 
@@ -122,8 +122,9 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
         if printed_output:
             print("[DEBUG] Printed Output:")
             print(printed_output)
-    
-        html_candidates = ["filtered_df", "result", "output_df"]
+            
+    html_candidates = ["filtered_df", "result", "output_df"]
+    if intent != "count":
         for var_name in html_candidates:
             val = local_vars.get(var_name)
             if isinstance(val, pd.DataFrame):
@@ -142,7 +143,7 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     
                     st.dataframe(val)
                     return "✅ Filtered results displayed."
-    
+                    
         # Fallback: Try rendering any object with _repr_html_
         for val in local_vars.values():
             if hasattr(val, "_repr_html_"):
@@ -413,7 +414,7 @@ def answer_query(query: str):
             memory.chat_memory.add_user_message(query + " [NCR]")
             memory.chat_memory.add_ai_message(code_ncr)
 
-            result_ncr = safe_execute_pandas_code(code_ncr, df_NCR=df_NCR, df_FCD=None, user_query=query)
+            result_ncr = safe_execute_pandas_code(code_ncr, df_NCR=df_NCR, df_FCD=None, user_query=query, intent=intent)
 
             # Return meaningful chat bubble only if it's a count or text
             if isinstance(result_ncr, str) and result_ncr.strip() and not any(
@@ -431,7 +432,7 @@ def answer_query(query: str):
             memory.chat_memory.add_user_message(query + " [FCD]")
             memory.chat_memory.add_ai_message(code_fcd)
 
-            result_fcd = safe_execute_pandas_code(code_fcd, df_NCR=None, df_FCD=df_FCD, user_query=query)
+            result_fcd = safe_execute_pandas_code(code_fcd, df_NCR=None, df_FCD=df_FCD, user_query=query, intent=intent)
 
             if isinstance(result_fcd, str) and result_fcd.strip() and not any(
                 w in result_fcd.lower() for w in ["displayed", "no output", "executed"]
@@ -543,7 +544,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🦩 NCR-FCD Insight Engine</h1>
+            <h1> NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
