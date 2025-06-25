@@ -145,14 +145,16 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
                     st.dataframe(val)
                     return "✅ Filtered results displayed."
                     
-        val = local_vars.get("filtered_df")
-        if isinstance(val, pd.DataFrame) and not val.empty:
-            st.subheader("📄 Auto-displaying filtered FCD/NCR records")
-            requested_cols = extract_requested_columns(user_query, list(val.columns))
-            if requested_cols:
-                val = val[requested_cols]
-            st.dataframe(val)
-            return "✅ Filtered results auto-displayed."
+        for var_name in html_candidates:
+            val = local_vars.get(var_name)
+            if isinstance(val, pd.DataFrame):
+                if not val.empty:
+                    st.subheader("📄 Auto-recovered filtered table")
+                    req_cols = extract_requested_columns(user_query, list(val.columns))
+                    if req_cols:
+                        val = val[req_cols]
+                    st.dataframe(val)
+                    return "✅ Recovered filtered results displayed."
 
         for val in local_vars.values():
             if hasattr(val, "_repr_html_"):
