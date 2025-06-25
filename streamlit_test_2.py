@@ -23,6 +23,7 @@ from IPython.core.display import HTML as ipyHTML
 from IPython.display import display
 from sentence_transformers import SentenceTransformer
 from langchain.embeddings import HuggingFaceBgeEmbeddings
+from difflib import get_close_matches
 
 #embedding_model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu") 
 from langchain.memory import ConversationBufferMemory
@@ -58,13 +59,14 @@ vectorstore = initialize_vectorstore()
 
 # -------------------- lsit columns request --------------------
 def extract_requested_columns(query, available_columns):
-    query_lower = query.lower()
-    extracted = []
+    query_words = query.lower().replace("_", " ").split()
+    matched = []
     for col in available_columns:
-        col_parts = col.lower().replace("_", " ").split()
-        if any(part in query_lower for part in col_parts):
-            extracted.append(col)
-    return list(set(extracted))
+        col_tokens = col.lower().replace("_", " ").split()
+        # Match based on exact token overlap or fuzzy match
+        if any(token in query_words for token in col_tokens) or get_close_matches(col.lower(), query_words, cutoff=0.7):
+            matched.append(col)
+    return list(set(matched))
 
 # -------------------- SAFE PANDAS EXECUTION --------------------
 def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: str = ""):
@@ -142,8 +144,8 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     
 # -------------------- LLM API calling --------------------
 llm = NvidiaChatLLM(api_key="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")
-if f"memory_{user_id}" not in st.session_state:
-    st.session_state[f"memory_{user_id}"] = ConversationBufferMemory(return_messages=True)
+if "memory" not in st.session_state:
+    st.session_state.memory = ConversationBufferMemory(return_messages=True)
 
 memory = st.session_state.memory
 chat_chain = ConversationChain(llm=llm, memory=memory)
@@ -512,7 +514,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🦩 NCR-FCD Insight Engine 🦩</h1>
+            <h1>🤖 Quality Chat Assistant</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
