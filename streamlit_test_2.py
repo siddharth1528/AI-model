@@ -142,8 +142,8 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     
 # -------------------- LLM API calling --------------------
 llm = NvidiaChatLLM(api_key="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")
-if "memory" not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory(return_messages=True)
+if f"memory_{user_id}" not in st.session_state:
+    st.session_state[f"memory_{user_id}"] = ConversationBufferMemory(return_messages=True)
 
 memory = st.session_state.memory
 chat_chain = ConversationChain(llm=llm, memory=memory)
@@ -508,11 +508,11 @@ st.markdown("""
 
 col1, col2 = st.columns([1, 6])
 with col1:
-    st.image("https://www.larsentoubro.com/media/30891/ltgrouplogo.jpg", width=200)
+    st.image("https://www.larsentoubro.com/media/30891/ltgrouplogo.jpg", width=250)
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🤖 NCR-FCD Insight Engine</h1>
+            <h1>🦩 NCR-FCD Insight Engine 🦩</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
@@ -527,7 +527,7 @@ input_col, img_col = st.columns([6, 1])
 with input_col:
     with st.form("chat_form"):
         user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in WIP", key="user_input")
-        submitted = st.form_submit_button("🔍O_O Ask")
+        submitted = st.form_submit_button("O_O 🔍 Ask")
 with img_col:
     st.image("https://cdn-icons-png.flaticon.com/512/10160/10160256.png", width=80)
 
