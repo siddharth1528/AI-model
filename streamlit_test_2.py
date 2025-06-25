@@ -122,27 +122,27 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
         if printed_output:
             print("[DEBUG] Printed Output:")
             print(printed_output)
-            
-    html_candidates = ["filtered_df", "result", "output_df"]
-    if intent != "count":
-        for var_name in html_candidates:
-            val = local_vars.get(var_name)
-            if isinstance(val, pd.DataFrame):
-                if val.empty:
-                    st.warning("⚠️ No matching records found.")
-                    return "⚠️ No results."
-                else:
-                    if "ncr" in user_query.lower() and "fcd" not in user_query.lower():
-                        st.subheader("📄 NCR Records")
-                    elif "fcd" in user_query.lower() and "ncr" not in user_query.lower():
-                        st.subheader("📄 FCD Records")
-    
-                    requested_cols = extract_requested_columns(user_query, list(val.columns))
-                    if requested_cols:
-                        val = val[requested_cols]
-    
-                    st.dataframe(val)
-                    return "✅ Filtered results displayed."
+                
+        html_candidates = ["filtered_df", "result", "output_df"]
+        if intent != "count":
+            for var_name in html_candidates:
+                val = local_vars.get(var_name)
+                if isinstance(val, pd.DataFrame):
+                    if val.empty:
+                        st.warning("⚠️ No matching records found.")
+                        return "⚠️ No results."
+                    else:
+                        if "ncr" in user_query.lower() and "fcd" not in user_query.lower():
+                            st.subheader("📄 NCR Records")
+                        elif "fcd" in user_query.lower() and "ncr" not in user_query.lower():
+                            st.subheader("📄 FCD Records")
+        
+                        requested_cols = extract_requested_columns(user_query, list(val.columns))
+                        if requested_cols:
+                            val = val[requested_cols]
+        
+                        st.dataframe(val)
+                        return "✅ Filtered results displayed."
                     
         # Fallback: Try rendering any object with _repr_html_
         for val in local_vars.values():
@@ -544,7 +544,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1> NCR-FCD Insight Engine</h1>
+            <h1>🐿 NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
