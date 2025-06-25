@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title="Retrieval Augmentaed Logic Engine-2 for NCR & FCD", layout="wide")
+st.set_page_config(page_title="Retrieval Augmented Logic Engine-2 for NCR & FCD", layout="wide")
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
@@ -415,7 +415,7 @@ def answer_query(query: str):
     elif intent == "summary":
         context = retrieve_context(query)
         if not context.strip():
-            return "❌ No relevant context found in the document."
+            return "🤐 No relevant context found in the document."
         return chat_chain.run(context)
 
     # 👉 INTENT: General Chat
@@ -512,7 +512,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🤖 Quality Chat Assistant</h1>
+            <h1>🤖 NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
@@ -526,10 +526,10 @@ st.markdown('<div class="chat-container">', unsafe_allow_html=True)
 input_col, img_col = st.columns([6, 1])
 with input_col:
     with st.form("chat_form"):
-        user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in validation stage", key="user_input")
-        submitted = st.form_submit_button("🔍 Ask")
+        user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in WIP", key="user_input")
+        submitted = st.form_submit_button("🔍O_O Ask")
 with img_col:
-    st.image("https://cdn-icons-png.flaticon.com/512/4712/4712109.png", width=80)
+    st.image("https://cdn-icons-png.flaticon.com/512/10160/10160256.png", width=80)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
