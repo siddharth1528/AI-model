@@ -116,22 +116,25 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
             return printed_output
 
         html_candidates = ["filtered_df", "result", "output_df"]
-        displayed = False
         for var_name in html_candidates:
             val = local_vars.get(var_name)
-            if isinstance(val, pd.DataFrame) and not val.empty:
-                if "ncr" in user_query.lower() and "fcd" not in user_query.lower():
-                    st.subheader("📄 NCR Records")
-                elif "fcd" in user_query.lower() and "ncr" not in user_query.lower():
-                    st.subheader("📄 FCD Records")
-                requested_cols = extract_requested_columns(user_query, list(val.columns))
-                if requested_cols:
-                    val = val[requested_cols]
-                st.dataframe(val)
-                displayed = True
-        if displayed:
-            return "✅ Filtered results displayed."
-
+            if isinstance(val, pd.DataFrame):
+                if val.empty:
+                    st.warning("⚠️ No matching records found.")
+                    return "⚠️ No results."
+                else:
+                    if "ncr" in user_query.lower() and "fcd" not in user_query.lower():
+                        st.subheader("📄 NCR Records")
+                    elif "fcd" in user_query.lower() and "ncr" not in user_query.lower():
+                        st.subheader("📄 FCD Records")
+        
+                    requested_cols = extract_requested_columns(user_query, list(val.columns))
+                    if requested_cols:
+                        val = val[requested_cols]
+        
+                    st.dataframe(val)
+                    return "✅ Filtered results displayed."
+                    
         for val in local_vars.values():
             if hasattr(val, "_repr_html_"):
                 st.markdown(val._repr_html_(), unsafe_allow_html=True)
