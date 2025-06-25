@@ -131,12 +131,8 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
                 print(val.head().to_string())
         
         printed_output = output.getvalue().strip()
-        if printed_output:
-            # Avoid returning printed DataFrames as plain text
-            if "DOC_Number" in printed_output or "DOC_NO" in printed_output:
-                return "⚠️ Printed DataFrame detected. Please check code rendering."
-            else:
-                return printed_output
+        if printed_output.strip():
+            return printed_output
 
         html_candidates = ["filtered_df", "result", "output_df"]
         for var_name in html_candidates:
