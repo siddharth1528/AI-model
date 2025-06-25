@@ -115,8 +115,20 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     output = io.StringIO()
     try:
         with contextlib.redirect_stdout(output):
+            print("[DEBUG] Executing code:\n", code_to_run)
             exec(code_to_run, {}, local_vars)
+            
+        print("[DEBUG] Local variables:", list(local_vars.keys()))
+        for name, val in local_vars.items():
+            if isinstance(val, pd.DataFrame):
+                print(f"[DEBUG] DataFrame var '{name}' shape: {val.shape}")
 
+        for name in ["filtered_df", "result", "output_df"]:
+        val = local_vars.get(name)
+        if isinstance(val, pd.DataFrame):
+            print(f"[DEBUG] '{name}' columns:", list(val.columns))
+            print(val.head().to_string())
+        
         printed_output = output.getvalue().strip()
         if printed_output:
             # Avoid returning printed DataFrames as plain text
