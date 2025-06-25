@@ -157,10 +157,10 @@ def classify_query(query: str):
 
     if any(k in query_lower for k in ["how many", "count", "total number", "number of"]):
         return "count"
-    elif any(k in query_lower for k in ["list", "show", "display", "filter", "which", "entries", "table", "pending"]):
+    elif any(k in query_lower for k in ["list", "show", "display", "filter", "which", "entries", "table", "pending", "summarize", "overview", "highlights"]):
         return "table"
     elif any(k in query_lower for k in ["what is this document", "describe this", "what does this document talk about",
-                                        "summarize", "overall theme", "key issues", "highlights"]):
+                                        "overall theme", "key issues"]):
         return "summary"
     else:
         return "chat"
@@ -514,7 +514,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🤖 Quality Chat Assistant</h1>
+            <h1>🦩 NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
@@ -531,7 +531,7 @@ with input_col:
         user_query = st.text_input("💬 Ask your question:", placeholder="e.g. List all FCDs in WIP", key="user_input")
         submitted = st.form_submit_button("O_O 🔍 Ask")
 with img_col:
-    st.image("https://cdn-icons-png.flaticon.com/512/4712/4712109.png", width=80)
+    st.image("https://cdn-icons-png.flaticon.com/512/10160/10160256.png", width=80)
 
 st.markdown('</div>', unsafe_allow_html=True)
 
