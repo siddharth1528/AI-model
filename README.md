@@ -108,17 +108,14 @@ Repository Structure
 The following upgrades are under consideration for future versions:\
 🎙Voice-based input using NVIDIA Riva Speech-to-Text
 📊 Dashboard visualizations using Plotly or Power BI integration
-⏱️ Scheduler to auto-run data_paraquet_former.ipynb daily via Task Scheduler
 🧾 Document-level semantic summarization using OCR and NLP
 🔐 Role-based authentication for enterprise deployment
 💬 Multi-turn memory threading for more natural conversations
 
 # Contact & Contributions
-This application is developed and maintained by Siddharth Singh,
+This application is developed by Siddharth Singh,
 MBA (Data Science & AI) Candidate – IIT Mandi.
 
 Feel free to fork, contribute, or raise issues as needed.
 For best results, ensure the parquet files are up to date before launching the app. Use the instructions above to refresh the data.
 
-### 🔍 Example Query Response
-![Query Screenshot](https://github.com/user-attachments/assets/82ff766c-1933-4b72-b10f-39e9275b1b6c.png)
