@@ -27,9 +27,9 @@ The system works by performing three key steps:
 
 ### 1. **Query Classification**
 Each user query is first categorized into one of the following:
-- `count`: Returns numeric metrics like counts, ratios, averages
-- `table`: Lists documents filtered by project, stage, or delay
-- `summary`: Generates high-level text summaries (if document context is loaded)
+- `count`: Returns numeric metrics like counts, ratios, averages (query using, "how many", "count", "total number", "number of")
+- `table`: Lists documents filtered by project, stage, or delay (query using, "list", "display", "filter", "which", "entries", "table", "pending", "summarize", "overview", "highlights")
+- `summary`: Generates table of required field in suggested format in prompt (if document context is loaded)
 - `chat`: Fallback for general queries
 
 ### 2. **Prompt Construction**
