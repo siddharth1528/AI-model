@@ -13,3 +13,8 @@ sentence-transformers
 faiss-cpu
 numpy
 pinecone 
+plotly.express
+plotly
+matplotlib.pyplot
+matplotlib
+seaborn
