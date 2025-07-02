@@ -69,8 +69,9 @@ These files are refreshed daily using a Jupyter notebook.
 
 ### Web Interface
 You can access the hosted web version here:  
-🔗 [https://ai-model-jkvtiyxmikxpmdldhixscr.streamlit.app/](https://ai-model-jkvtiyxmikxpmdldhixscr.streamlit.app/)  
-> This link launches the Streamlit-based Version 2 of the Retrieval-Augmented Chat Assistant.
+🔗 [https://ai-model-ncr-fcd-v2.streamlit.app/](https://ai-model-ncr-fcd-v2.streamlit.app/)  
+🔗 [https://ai-model-ncr-fcd-v4.streamlit.app/](https://ai-model-ncr-fcd-v4.streamlit.app/) (for Memory Enabled Query)
+> These links launches the Streamlit-based Versions of the Retrieval-Augmented Chat Assistant.
 
 ---
 
