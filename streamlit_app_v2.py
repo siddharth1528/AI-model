@@ -132,7 +132,7 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
 
     
 # -------------------- LLM API calling --------------------
-llm = NvidiaChatLLM(api_key="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")
+llm = NvidiaChatLLM(api_key="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")
 memory = ConversationBufferMemory(return_messages=True)
 chat_chain = ConversationChain(llm=llm, memory=memory) 
 
