@@ -73,19 +73,20 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     if not isinstance(code, str):
         return f"❌ Error: LLM returned a non-string response: {type(code)}"
         
+
     match = re.search(r"```(?:python)?\n(.*?)```", code, re.DOTALL)
-    code_to_run = match.group(1).strip() if match else code.strip()
+    code_raw = match.group(1).strip() if match else code.strip()
     
-    code_to_run = code_to_run.replace("\r\n", "\n").replace("\r", "\n")
+    code_raw = code_raw.replace("\r\n", "\n").replace("\r", "\n")
     
-    code_lines = [line.rstrip() for line in code_to_run.splitlines()]
-    code_lines = [line for line in code_lines if line.strip() != ""]  # Remove blank lines
+    code_dedented = textwrap.dedent(code_raw)
     
-    code_to_run = "\n".join(code_lines)
-    code_to_run = textwrap.dedent(code_to_run)
+    code_dedented = re.sub(r"[^\x20-\x7E\n\t]", "", code_dedented)
+    code_dedented = re.sub(r"\b0+(\d+)", r"\1", code_dedented)
     
-    code_to_run = re.sub(r"[^\x20-\x7E\n\t]", "", code_to_run)
-    code_to_run = re.sub(r"\b0+(\d+)", r"\1", code_to_run)
+    lines = [line.rstrip() for line in code_dedented.splitlines()]
+    lines = [line for line in lines if line.strip()]
+    code_to_run = "\n".join(lines)
     
     code_to_run = re.sub(
         r"print\s*\(\s*(filtered_df|result|output_df)\s*\)",
@@ -93,7 +94,7 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
         code_to_run,
         flags=re.IGNORECASE
     )
-
+    
     try:
         ast.parse(code_to_run)
     except SyntaxError as e:
@@ -582,7 +583,7 @@ if submitted and user_query:
     st.session_state.chat_history.append(("user", user_query))
 
     # Step 2: Process and append assistant response
-    with st.spinner("Got it.. Processing Your Query!!.."):
+    with st.spinner("Got it.. Processing Your Query!."):
         result = answer_query(user_query)
 
         # Do NOT duplicate these appends if answer_query already appends!
