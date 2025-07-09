@@ -76,6 +76,9 @@ def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: st
     match = re.search(r"```(?:python)?\n(.*?)```", code, re.DOTALL)
     code_to_run = match.group(1).strip() if match else code.strip()
 
+    import textwrap
+    code_to_run = textwrap.dedent(code_to_run)
+    
     code_to_run = re.sub(r"[^\x20-\x7E\n\t]", "", code_to_run)
     code_to_run = re.sub(r"\b0+(\d+)", r"\1", code_to_run)
 
@@ -546,7 +549,7 @@ with col1:
 with col2:
     st.markdown('''
         <div class="header-text">
-            <h1>🦩 NCR-FCD Insight Engine</h1>
+            <h1> NCR-FCD Insight Engine</h1>
             <div class="header-subtitle">
                 Ask about NCRs & FCDs using natural language.
             </div>
