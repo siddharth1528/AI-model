@@ -11,7 +11,7 @@ import contextlib
 import requests
 import ast
 import torch
-
+import textwrap
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -72,16 +72,21 @@ def extract_requested_columns(query, available_columns):
 def safe_execute_pandas_code(code: str, df_NCR=None, df_FCD=None, user_query: str = "", intent: str = "table"):
     if not isinstance(code, str):
         return f"❌ Error: LLM returned a non-string response: {type(code)}"
-
+        
     match = re.search(r"```(?:python)?\n(.*?)```", code, re.DOTALL)
     code_to_run = match.group(1).strip() if match else code.strip()
-
-    import textwrap
+    
+    code_to_run = code_to_run.replace("\r\n", "\n").replace("\r", "\n")
+    
+    code_lines = [line.rstrip() for line in code_to_run.splitlines()]
+    code_lines = [line for line in code_lines if line.strip() != ""]  # Remove blank lines
+    
+    code_to_run = "\n".join(code_lines)
     code_to_run = textwrap.dedent(code_to_run)
     
     code_to_run = re.sub(r"[^\x20-\x7E\n\t]", "", code_to_run)
     code_to_run = re.sub(r"\b0+(\d+)", r"\1", code_to_run)
-
+    
     code_to_run = re.sub(
         r"print\s*\(\s*(filtered_df|result|output_df)\s*\)",
         r"display(ipyHTML(\1.to_html(index=False)))",
@@ -577,7 +582,7 @@ if submitted and user_query:
     st.session_state.chat_history.append(("user", user_query))
 
     # Step 2: Process and append assistant response
-    with st.spinner("Got it.. Processing Your Query!"):
+    with st.spinner("Got it.. Processing Your Query!!.."):
         result = answer_query(user_query)
 
         # Do NOT duplicate these appends if answer_query already appends!
